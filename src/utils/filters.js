@@ -2,41 +2,13 @@
 import datastore from '../datastore';
 // import { generateKeyPair } from 'crypto';
 
-// | Operator | Description |
-// -----------|--------------
-// | Equals   | Value exactly matches |
-// | Is greater than | Value is greater than |
-// | Is less than  | Value is less than |
-// | Has any value | Value is present |
-// | Has no value  | Value is absent  |
-// | Is any of     | Value exactly matches one of several values |
-// | Contains      | Value contains the specified text |
-
-
-// | Property Type | Valid Operators |
-// ---------------- | ----------------
-// | string | Equals |
-// |        | Has any value |
-// |        | Has no value |
-// |        | Is any of |
-// |        | Contains |
-// | number | Equals |
-// |        | Is greater than |
-// |        | Is less than |
-// |        | Has any value |
-// |        | Has no value |
-// |        | Is any of |
-// | enumerated | equals |
-// |            | Has any value |
-// |            | Has no value |
-// |            | Is any of |
-export const relationships = {
+const relationships = {
     string: ['Equals', 'Has any value', 'Has no value', 'Is any of', 'Contains'],
     number: ['Equals', 'Is greater than', 'Is less than', 'Has any value', 'Has no value', 'Is any of'],
     enumerated: ['Equals', 'Has any value', 'Has no value', 'Is any of']
 }
 
-export const helperfunc = {
+const helperfunc = {
     'Equals': function equals(prop = '', propVal = '') {
         //using == to be type insensitive, dont want to convert numbers to string for the sake of checking against user inputs
         // eslint-disable-next-line eqeqeq
@@ -64,7 +36,7 @@ export const helperfunc = {
     }
 }
 
-export function propertyLookup(property) {
+function propertyLookup(property) {
     let props = datastore.properties
     const classifier = props.filter((item) => item.name === property).shift().type
     const id = props.filter((item) => item.name === property).shift().id
