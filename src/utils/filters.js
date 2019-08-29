@@ -22,7 +22,6 @@ const helperfunc = {
         return propvals.includes(prop)
     },
     'Contains': function contains(prop, propvals) {
-        console.log(prop, propvals)
         const reg = new RegExp(prop, 'gi');
         return propvals.match(reg) !== null 
     },
@@ -69,14 +68,12 @@ export function filterProductVals(property) {
 
 
 export function filterProducts(property, operator, propval) {
-    console.log(operator)
     const products = datastore.getProducts();
     const propID = propertyLookup(property).id;
     const productList = [];
     for (let i = 0, l = products.length; i < l; i++) {
         if (operator !== ("Has any value" || "Has no value")) {
             const op = helperfunc[operator];
-            console.log(op);
             (products[i].property_values.map(propvals => propvals.property_id === propID && op(propval,products[i].property_values[propID].value) ? productList.push(products[i]) : null )
             );
         } else if (operator === "Has any value") { 

@@ -69,6 +69,7 @@ class ConditionalProdTable extends Component {
     }
 
     handleSelectOperator(operator){
+      const state = this.state.filter
       operator.value === ("Has any value" || "Has no value") ? 
       this.setState({
         products: filterProducts(state.propertySelect, state.operatorSelect),
