@@ -105,7 +105,6 @@ class ConditionalProdTable extends Component {
 
 
     render() { 
-      console.log(this.state)
 
       const [filter,filterToggle] = [this.state.filter, this.state.filterOn]
       const elements = {

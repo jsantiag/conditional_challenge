@@ -15,11 +15,8 @@ const helperfunc = {
         return prop == propVal
     }, 
     'Is any of': function isAnyOf(prop, propvals) {
-        if (typeof(propvals) === 'string'){
-            propvals = propvals.toLowerCase().split(',')
-        }
-        // expects an array of propvalues to check against an individual propvalue
-        return propvals.includes(prop)
+            prop = prop.toLowerCase().split(',')
+        return prop.includes(propvals)
     },
     'Contains': function contains(prop, propvals) {
         const reg = new RegExp(prop, 'gi');
