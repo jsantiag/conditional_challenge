@@ -1,33 +1,34 @@
-import React, {Component}from 'react';
-
+import React from 'react';
+import '../styling/product-list.css'
 // currently functioning list of products unfiltered  
 
-class ProductList extends Component {
-  
-    render(){
+const ProductList = (props) => {
+      const [headers, products] = [props.headers, props.products] 
+      const headerList = headers.map((property, i)=> <th key={`${property} ${i}`}>{property}</th>)
+      const productList = products.map((prod,i)=> 
+      <tr key={`product-${i}${prod.property_values[0].value}`}>
+      {prod.property_values.map((prop_val, i)=> <td key={`${prop_val.value} ${headerList[i].id}`}>{prop_val.value}</td>)}
+      </tr>)
 
-      const [headers, products] = [this.props.headers, this.props.products] 
       return (
-      <div className="ProductList">
-        <table>
+      <div key={"ProductList-table"}className="ProductList">
 
-         <tbody className="Headers">
-            <tr> 
-              {headers.map((property)=> <th key={property.id}>{property.name}</th> )}
+        <table className="TableClass">
+
+         <thead className="Headers">
+            <tr key={'table-headers'}> 
+              {headerList}
             </tr> 
-          </tbody>
+          </thead>
 
           <tbody className="Products">
-            {products.map((product, i)=> 
-            <tr key={i}>
-            {product.property_values.map((prop_val, i)=> <td key={headers[i].id}>{prop_val.value}</td>)}
-            </tr>)}
+            {productList}
           </tbody>
         
        </table>
       </div>
     );
   }
-}
+
 
 export default ProductList;

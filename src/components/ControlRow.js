@@ -1,50 +1,71 @@
 import React, {Component}from 'react';
 import Dropdown from 'react-dropdown';
+import '../styling/control-row.css';
 
 
 class ControlRow extends Component {
     constructor (props) {
-        super(props)
-        this.state = {
-          propertySelect: '',
-          operatorSelect: '', 
-          propertyValueSelect: ''
-        }
+        super(props);
         this.onSelectProp = this.onSelectProp.bind(this)
         this.onSelectOp = this.onSelectOp.bind(this)
-        // this.onSelectPropVal = this.onSelectPropVal.bind(this)
+        this.onSelectPropVal = this.onSelectPropVal.bind(this)
+        this.onFilterClear = this.onFilterClear.bind(this)
+        this.updatePropertyValue = this.updatePropertyValue.bind(this)
       }
-    
-      onSelectProp (property) {
-        console.log('You selected ', property.label)
-        this.setState({propertySelect: property})
-      }
-      onSelectOp (operator) {
-        console.log('You selected ', operator.label)
-        this.setState({operatorSelect: operator}) 
-      }
-    //   onSelectPropVal (option) {
-    //     console.log('You selected ', option.label)
-    //     this.setState({propertyValueSelect: option}) 
-    //   }
-      render () {
-          const [defaultProperty, defaultOperation ] = [this.state.propertySelect, this.state.operatorSelect]
-          console.log(this.props.operators)
-          const operators = this.props.operators.map((op)=> op.text)
 
-        //   defaultPropVal =this.state.propertyValueSelect
-        //   const propVals = this.props.propertyValues.map((prod)=> prod.property_values.map((propval)=> propval.value))
+      onSelectProp (option) {
+        this.props.handlers.onSelectProperty(option)
+      }
+      onSelectOp (option) {
+        this.props.handlers.onSelectOperator(option)
+      }
+      onSelectPropVal (option) {
+        this.props.handlers.onSelectPropertyVal(option)
+      }
+      onFilterClear(e){
+        this.props.handlers.onFilterClear(e)
+      }
+      updatePropertyValue(event){
+        event.preventDefault();
+        this.props.handlers.updatePropertyValue(event)
+      }
+
+      render () {
+          const props = this.props
+          // const [defaultProperty, defaultOperation, defaultPropVal] = [this.props.propertySelect, this.props.operatorSelect, this.props.propertyValueSelect]
          return(
             <div className="ControlRow">
                 <div className="FilterProp">
-                    <Dropdown className="PropertySelect" options={this.props.properties} onChange={this.onSelect} value={defaultProperty} placeholder="Select a property"></Dropdown>
+                    <Dropdown className="PropertySelect" options={props.elements.properties} onChange={this.onSelectProp} value={props.filter.propertySelect} placeholder="Select a property"></Dropdown>
                 </div>
+                {props.filterToggle ? 
                 <div className="FilterOp">
-                    <Dropdown className="OperatorSelect" options={operators} onChange={this.onSelect} value={defaultOperation} placeholder="Select an operator"></Dropdown>
+                    <Dropdown className="OperatorSelect" options={props.elements.operators} onChange={this.onSelectOp} value={props.filter.operatorSelect} placeholder="Select an operator"></Dropdown>
                 </div>
-                {/* <div className="FilterPropVal">
-                    <Dropdown className="PropValSelect" propVals={propVals} onChange={this.onSelect} value={defaultPropVal} placeholder="Select a property value"></Dropdown>
-                </div> */}
+                :
+                null}
+                {(props.filterToggle && !['','Has any value','Has no value'].includes(props.filter.operatorSelect)) ? 
+                (props.filter.operatorSelect==='Is any of' ? 
+                <div className="FilterPropVal">
+                      <label>Enter comma separated values:</label>
+                  <input className="PropValSelect" type="text" value={props.filter.propertyValueSelect}  onChange={this.updatePropertyValue} ></input>
+                </div>  
+                :
+                <div className="FilterPropVal">
+                    <Dropdown className="PropValSelect" options={props.elements.productValues} onChange={this.onSelectPropVal} value={props.filter.propertyValueSelect} placeholder="Select a property value"></Dropdown>
+                </div> )
+                  :
+                  null}                
+                  <div>
+                 {
+                  props.filterToggle && props.filter.operatorSelect?   
+                  <button className="FilterClear" onClick={this.onFilterClear}>
+                    clear filter
+                  </button>
+                  :
+                  null
+                 }
+                </div>
             </div>
         ) 
     }
