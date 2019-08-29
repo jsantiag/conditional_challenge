@@ -45,9 +45,9 @@ class ControlRow extends Component {
                 :
                 null}
                 {(props.filterToggle && !['','Has any value','Has no value'].includes(props.filter.operatorSelect)) ? 
-                (props.filter.operatorSelect==='Is any of' ? 
+                (['Is any of','Contains'].includes(props.filter.operatorSelect)? 
                 <div className="FilterPropVal">
-                      <label>Enter comma separated values:</label>
+                      <label>Enter single value or multiple comma separated values:</label>
                   <input className="PropValSelect" type="text" value={props.filter.propertyValueSelect}  onChange={this.updatePropertyValue} ></input>
                 </div>  
                 :

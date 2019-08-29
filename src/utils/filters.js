@@ -49,9 +49,10 @@ export const helperfunc = {
         // expects an array of propvalues to check against an individual propvalue
         return propvals.includes(prop)
     },
-    'Contains': function contains(prop = '', propVal = '') {
-        let val = propVal.toLowerCase()
-        return prop.toLowerCase().match(val)
+    'Contains': function contains(prop, propvals) {
+        console.log(prop, propvals)
+        const reg = new RegExp(prop, 'gi');
+        return propvals.match(reg) !== null 
     },
     'Is greater than': function greaterThan(prop = '', propVal = '') {
         let val = Number(propVal)
